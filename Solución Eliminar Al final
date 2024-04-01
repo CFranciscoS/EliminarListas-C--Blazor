@@ -1,0 +1,90 @@
+@page "/"
+<h1>Operaciones con Lista</h1>
+<button @onclick="EliminarInicio">Eliminar al inicio</button>
+<button @onclick="EliminarFinal">Eliminar al final</button>
+<input @bind="posicionEliminar" type="number" placeholder="Posición a eliminar"
+/>
+<button @onclick="() => EliminarAntesDespuesDe(posicionEliminar, 
+true)">Eliminar antes de la posición</button>
+<button @onclick="() => EliminarAntesDespuesDe(posicionEliminar, 
+false)">Eliminar después de la posición</button>
+<button @onclick="() => EliminarEnPosicion(posicionEliminar)">Eliminar en 
+posición</button>
+<button @onclick="OrdenarLista">Ordenar lista</button>
+<p>Lista: @string.Join(", ", lista)</p>
+<p>@mensajeError</p>
+@code {
+ List<int> lista = new List<int> { 5, 2, 1, 4, 3 };
+ int posicionEliminar;
+ string mensajeError = "";
+ void EliminarInicio()
+ {
+ if (lista.Count > 0)
+ {
+ lista.RemoveAt(0);
+ mensajeError = "";
+ }
+ else
+ {
+ mensajeError = "La lista está vacía, no se puede eliminar al 
+inicio.";
+ }
+ }
+ void EliminarFinal()
+ {
+ if (lista.Count > 0)
+ {
+ lista.RemoveAt(lista.Count - 1);
+ mensajeError = "";
+ }
+ else
+ {
+ mensajeError = "La lista está vacía, no se puede eliminar al 
+final.";
+ }
+ }
+ void EliminarAntesDespuesDe(int posicion, bool antesDe)
+ {
+ if (posicion >= 1 && posicion <= lista.Count)
+ {
+ if (antesDe && posicion > 1)
+ {
+ lista.RemoveAt(posicion - 2);
+ mensajeError = "";
+ }
+ else if (!antesDe && posicion < lista.Count)
+ {
+ lista.RemoveAt(posicion);
+ mensajeError = "";
+ }
+ else
+ {
+ mensajeError = "No se puede eliminar antes o después de esa 
+posición.";
+ }
+ }
+ else
+ {
+ mensajeError = "La posición especificada está fuera de los límites 
+de la lista.";
+ }
+ }
+ void EliminarEnPosicion(int posicion)
+ {
+ if (posicion > 0 && posicion <= lista.Count)
+ {
+ lista.RemoveAt(posicion - 1);
+ mensajeError = "";
+ }
+ else
+ {
+ mensajeError = "La posición especificada está fuera de los límites 
+de la lista.";
+ }
+ }
+ void OrdenarLista()
+ {
+ lista.Sort();
+ mensajeError = "";
+ }
+}
